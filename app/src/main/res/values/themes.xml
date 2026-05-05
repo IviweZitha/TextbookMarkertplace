@@ -1,9 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TextbookMarkertplace" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.TextbookMarketplace" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/magenta_primary</item>
+        <item name="colorPrimaryVariant">@color/magenta_primary_variant</item>
+        <item name="colorOnPrimary">@color/magenta_on_primary</item>
+
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:windowBackground">@color/background</item>
+
+        <!-- Smooth transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/fade</item>
+        <item name="android:windowExitTransition">@android:transition/fade</item>
     </style>
 
-    <style name="Theme.TextbookMarkertplace" parent="Base.Theme.TextbookMarkertplace" />
+    <style name="Widget.TextbookMarketplace.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/magenta_primary</item>
+        <item name="android:textColor">@color/magenta_on_primary</item>
+    </style>
+
+    <style name="Widget.TextbookMarketplace.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/magenta_primary</item>
+        <item name="android:textColor">@color/magenta_primary</item>
+    </style>
 </resources>

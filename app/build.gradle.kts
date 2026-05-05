@@ -1,16 +1,17 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 
 }
 
 android {
     namespace = "com.example.textbookmarketplace"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.textbookmarketplace"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 2
         versionName = "1.1"
     }
@@ -53,7 +54,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.7.6")
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
