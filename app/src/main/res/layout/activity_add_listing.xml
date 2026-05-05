@@ -1,0 +1,771 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:fillViewport="true">
+
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+
+        android:paddingTop="24dp">
+
+
+
+        <!-- Header Text -->
+
+        <TextView
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:paddingHorizontal="16dp"
+
+            android:text="List a Textbook for Sale"
+
+            android:textColor="@color/black"
+
+            android:textSize="24sp"
+
+            android:textStyle="bold" />
+
+
+
+        <TextView
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:paddingHorizontal="16dp"
+
+            android:paddingTop="4dp"
+
+            android:paddingBottom="16dp"
+
+            android:text="Fill in the details below to create your listing."
+
+            android:textColor="@color/grey_600"
+
+            android:textSize="14sp" />
+
+
+
+        <!-- Card 1: Book Details -->
+
+        <androidx.cardview.widget.CardView
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_marginHorizontal="16dp"
+
+            android:layout_marginBottom="16dp"
+
+            app:cardCornerRadius="12dp"
+
+            app:cardElevation="2dp">
+
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                android:padding="16dp">
+
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Book Details"
+
+                    android:textColor="@color/colorPrimary"
+
+                    android:textSize="16sp"
+
+                    android:textStyle="bold" />
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="16dp"
+
+                    android:hint="@string/book_title">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etBookTitle"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textCapWords" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:hint="@string/author">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etAuthor"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textCapWords" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:hint="@string/isbn">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etIsbn"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="8dp"
+
+                        android:layout_marginEnd="8dp"
+
+                        android:layout_weight="1"
+
+                        android:hint="@string/edition">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:id="@+id/etEdition"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:inputType="text" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="8dp"
+
+                        android:layout_marginStart="8dp"
+
+                        android:layout_weight="1"
+
+                        android:hint="@string/condition">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:id="@+id/etCondition"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:inputType="textCapWords" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="8dp"
+
+                        android:layout_marginEnd="8dp"
+
+                        android:layout_weight="1"
+
+                        android:hint="@string/faculty">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:id="@+id/etFaculty"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:inputType="textCapWords" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="8dp"
+
+                        android:layout_marginStart="8dp"
+
+                        android:layout_weight="1"
+
+                        android:hint="@string/course_code">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:id="@+id/etCourseCode"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:inputType="textCapCharacters" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="8dp"
+
+                        android:layout_marginEnd="8dp"
+
+                        android:layout_weight="1"
+
+                        android:hint="@string/copies">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:id="@+id/etCopies"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:inputType="number" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="8dp"
+
+                        android:layout_marginStart="8dp"
+
+                        android:layout_weight="1"
+
+                        android:hint="@string/selling_price">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:id="@+id/etSellingPrice"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:inputType="numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <!-- Card 2: Seller Details -->
+
+        <androidx.cardview.widget.CardView
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_marginHorizontal="16dp"
+
+            android:layout_marginBottom="16dp"
+
+            app:cardCornerRadius="12dp"
+
+            app:cardElevation="2dp">
+
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                android:padding="16dp">
+
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Seller Details"
+
+                    android:textColor="@color/colorPrimary"
+
+                    android:textSize="16sp"
+
+                    android:textStyle="bold" />
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="16dp"
+
+                    android:hint="@string/seller_name">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etSellerName"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textCapWords" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:hint="@string/seller_email">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etSellerEmail"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textEmailAddress" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:hint="@string/seller_phone">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etSellerPhone"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="phone" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <!-- Card 3: Banking Details (Includes your snippet) -->
+
+        <androidx.cardview.widget.CardView
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_marginHorizontal="16dp"
+
+            android:layout_marginBottom="8dp"
+
+            app:cardCornerRadius="12dp"
+
+            app:cardElevation="2dp">
+
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                android:padding="16dp">
+
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Banking Details"
+
+                    android:textColor="@color/colorPrimary"
+
+                    android:textSize="16sp"
+
+                    android:textStyle="bold" />
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="16dp"
+
+                    android:hint="@string/bank_name">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etBankName"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textCapWords" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:hint="@string/account_number">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etAccountNumber"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:hint="@string/account_holder">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etAccountHolder"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="textCapWords" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <!-- START OF YOUR PROVIDED SNIPPET -->
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:hint="@string/branch_code">
+
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etBranchCode"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:inputType="number"
+
+                        android:maxLength="6"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <!-- Buttons -->
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_margin="16dp"
+
+            android:orientation="horizontal">
+
+
+
+            <com.google.android.material.button.MaterialButton
+
+                android:id="@+id/btnClear"
+
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginEnd="8dp"
+
+                android:layout_weight="1"
+
+                android:text="@string/clear"/>
+
+
+
+            <com.google.android.material.button.MaterialButton
+
+                android:id="@+id/btnSubmit"
+
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="8dp"
+
+                android:layout_weight="1"
+
+                android:text="@string/submit"/>
+
+
+
+        </LinearLayout>
+
+
+
+        <View
+
+            android:layout_width="match_parent"
+
+            android:layout_height="32dp"/>
+
+
+
+    </LinearLayout>
+
+
+
+</ScrollView>
