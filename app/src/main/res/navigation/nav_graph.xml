@@ -72,4 +72,11 @@
         android:label="Settings"
         tools:layout="@layout/fragment_settings"/>
 
+    <action
+        android:id="@+id/action_mylistings_to_add"
+        app:destination="@id/addTextbookFragment" />
+
+
+
 </navigation>
+

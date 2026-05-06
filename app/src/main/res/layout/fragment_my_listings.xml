@@ -26,9 +26,10 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_monochrome_logo"
-            android:tint="@color/magenta_primary"
-            android:alpha="0.5"/>
+            android:src="@drawable/ic_launcher_monochrome"
+            app:tint="@color/magenta_primary"
+            android:alpha="0.5"
+            android:contentDescription="@string/my_listings_empty"/>
 
         <TextView
             android:layout_width="wrap_content"

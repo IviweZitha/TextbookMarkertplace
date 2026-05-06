@@ -15,9 +15,11 @@ import com.example.textbookmarketplace.adapter.TextbookAdapter;
 import com.example.textbookmarketplace.databinding.FragmentHomeBinding;
 import com.example.textbookmarketplace.model.Textbook;
 import com.example.textbookmarketplace.viewmodel.BookViewModel;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+
     private FragmentHomeBinding binding;
     private BookViewModel viewModel;
     private TextbookAdapter featuredAdapter;
@@ -32,44 +34,18 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         viewModel = new ViewModelProvider(this).get(BookViewModel.class);
-
-        setupSearch();
-        setupQuickActions();
         setupFeaturedList();
         observeFeaturedBooks();
-    }
-
-    private void setupSearch() {
-        binding.searchInput.setOnEditorActionListener((v, actionId, event) -> {
-            String query = binding.searchInput.getText().toString().trim();
-            if (!query.isEmpty()) {
-                Bundle args = new Bundle();
-                args.putString("search_query", query);
-                NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_home_to_browse, args);
-            }
-            return true;
-        });
-    }
-
-    private void setupQuickActions() {
-        binding.btnBrowse.setOnClickListener(v ->
-                NavHostFragment.findNavController(this).navigate(R.id.action_home_to_browse));
-
-        binding.btnAdd.setOnClickListener(v ->
-                NavHostFragment.findNavController(this).navigate(R.id.action_home_to_add));
     }
 
     private void setupFeaturedList() {
         featuredAdapter = new TextbookAdapter(book -> {
             Bundle args = new Bundle();
             args.putString("book_id", book.getId());
-            NavHostFragment.findNavController(this)
+            NavHostFragment.findNavController(HomeFragment.this)
                     .navigate(R.id.action_home_to_detail, args);
         });
-
         binding.recyclerFeatured.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerFeatured.setAdapter(featuredAdapter);
@@ -78,7 +54,7 @@ public class HomeFragment extends Fragment {
     private void observeFeaturedBooks() {
         viewModel.getAllAvailableBooks().observe(getViewLifecycleOwner(), books -> {
             if (books != null && !books.isEmpty()) {
-                List<Textbook> featured = books.subList(0, Math.min(10, books.size()));
+                List<Textbook> featured = new ArrayList<>(books.subList(0, Math.min(10, books.size())));
                 featuredAdapter.submitList(featured);
             }
         });

@@ -10,12 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.textbookmarketplace.BuildConfig;
 import com.example.textbookmarketplace.R;
 import com.example.textbookmarketplace.databinding.FragmentSettingsBinding;
 import com.example.textbookmarketplace.util.ThemeHelper;
 import com.example.textbookmarketplace.viewmodel.ThemeViewModel;
-import com.google.firebase.appcheck.BuildConfig;
 
 public class SettingsFragment extends Fragment {
 
@@ -33,68 +31,27 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        themeViewModel = new ViewModelProvider(this).get(ThemeViewModel.class);
+        themeViewModel = new ViewModelProvider(requireActivity()).get(ThemeViewModel.class);
 
-        setupVersion();
-        setupThemeToggle();
-        setupActions();
-        observeTheme();
-    }
-
-    private void setupVersion() {
-        String version = String.format(getString(R.string.app_version), BuildConfig.VERSION_NAME);
-        binding.tvVersion.setText(version);
-    }
-
-    private void setupThemeToggle() {
-        binding.themeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String mode;
-                if (checkedId == R.id.theme_system) {
-                    mode = "system";
-                } else if (checkedId == R.id.theme_light) {
-                    mode = "light";
-                } else if (checkedId == R.id.theme_dark) {
-                    mode = "dark";
-                } else {
-                    mode = "system";
-                }
-                themeViewModel.setThemeMode(mode);
-            }
-        });
-    }
-
-    private void setupActions() {
-        binding.btnClearCache.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                themeViewModel.clearCache();
-                Toast.makeText(getContext(), "Cache cleared", Toast.LENGTH_SHORT).show();
+        binding.themeRadioGroup.setOnCheckedChangeListener((@NonNull RadioGroup group, int checkedId) -> {
+            if (checkedId == R.id.radioLight) {
+                ThemeHelper.applyTheme(ThemeHelper.LIGHT);
+                themeViewModel.setThemeMode(ThemeHelper.LIGHT);
+            } else if (checkedId == R.id.radioDark) {
+                ThemeHelper.applyTheme(ThemeHelper.DARK);
+                themeViewModel.setThemeMode(ThemeHelper.DARK);
+            } else if (checkedId == R.id.radioSystem) {
+                ThemeHelper.applyTheme(ThemeHelper.SYSTEM);
+                themeViewModel.setThemeMode(ThemeHelper.SYSTEM);
             }
         });
 
-        binding.btnPrivacy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Privacy Policy coming soon", Toast.LENGTH_SHORT).show();
-            }
+        binding.btnSave.setOnClickListener(v -> {
+            Toast.makeText(requireContext(), "Settings saved", Toast.LENGTH_SHORT).show();
         });
-    }
 
-    private void observeTheme() {
-        themeViewModel.getThemeMode().observe(getViewLifecycleOwner(), new androidx.lifecycle.Observer<String>() {
-            @Override
-            public void onChanged(String mode) {
-                if ("system".equals(mode)) {
-                    binding.themeSystem.setChecked(true);
-                } else if ("light".equals(mode)) {
-                    binding.themeLight.setChecked(true);
-                } else if ("dark".equals(mode)) {
-                    binding.themeDark.setChecked(true);
-                }
-                ThemeHelper.animateTransition(requireActivity());
-            }
+        binding.btnLogout.setOnClickListener(v -> {
+            Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show();
         });
     }
 

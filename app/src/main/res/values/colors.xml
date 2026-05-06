@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Magenta Theme -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grey_100">#FFF5F5F5</color>
+    <color name="grey_200">#FFEEEEEE</color>
+    <color name="grey_400">#FFBDBDBD</color>
+    <color name="grey_500">#FF9E9E9E</color>
+    <color name="grey_600">#FF757575</color>
+    <color name="grey_700">#FF616161</color>
+    <color name="colorPrimary">#FF6200EE</color>
+    <color name="colorPrimaryDark">#FF3700B3</color>
+    <color name="colorAccent">#FF03DAC5</color>
+    <color name="green_700">#FF388E3C</color>
+
+    <!-- Primary Magenta -->
     <color name="magenta_primary">#FF00FF</color>
-    <color name="magenta_primary_variant">#E600E6</color>
-    <color name="magenta_on_primary">#000000</color>
+    <color name="magenta_primary_variant">#CC00CC</color>
+    <color name="magenta_on_primary">#FFFFFF</color>
 
-    <!-- Light Theme -->
-    <color name="background_light">#FFFFFF</color>
-    <color name="surface_light">#F8F9FA</color>
-    <color name="surface_variant_light">#ECECEC</color>
-    <color name="text_primary_light">#1A1A1A</color>
-    <color name="text_secondary_light">#666666</color>
-    <color name="error_light">#B00020</color>
-
-    <!-- Status Bar -->
-    <color name="status_bar_light">#F0F0F0</color>
-
-    <!-- Default (Light) -->
-    <color name="background">@color/background_light</color>
-    <color name="surface">@color/surface_light</color>
-    <color name="surface_variant">@color/surface_variant_light</color>
-    <color name="text_primary">@color/text_primary_light</color>
-    <color name="text_secondary">@color/text_secondary_light</color>
-    <color name="error">@color/error_light</color>
-    <color name="status_bar">@color/status_bar_light</color>
+    <!-- Light Theme Colors -->
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#EEEEEE</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="error">#B00020</color>
+    <color name="status_bar">#E0E0E0</color>
 </resources>

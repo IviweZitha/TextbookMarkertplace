@@ -18,8 +18,8 @@
             android:id="@+id/app_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_monochrome_logo"
-            android:tint="@color/magenta_primary"
+            android:src="@drawable/ic_launcher_monochrome"
+            app:tint="@color/magenta_primary"
             android:contentDescription="@string/app_name"
             android:layout_marginBottom="32dp"/>
 
@@ -71,7 +71,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Featured Textbooks"
+            android:text="@string/home_featured"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
@@ -80,8 +80,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_featured"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_launcher_monochrome"
+            android:contentDescription="@string/app_name"/>
+
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

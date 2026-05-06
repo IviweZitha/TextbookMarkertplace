@@ -19,7 +19,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.textbookmarketplace.R;
 import com.example.textbookmarketplace.databinding.FragmentAddTextbookBinding;
 import com.example.textbookmarketplace.model.Textbook;
-import com.example.textbookmarketplace.repository.FileStorageRepository;
 import com.example.textbookmarketplace.util.FilePickerHelper;
 import com.example.textbookmarketplace.viewmodel.BookViewModel;
 import java.util.Objects;
@@ -68,13 +67,10 @@ public class AddTextbookFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         currentUserId = "demo_user_123";
-
         viewModel = new ViewModelProvider(this).get(BookViewModel.class);
         textbook = new Textbook();
         textbook.setSellerId(currentUserId);
-
         setupFormFields();
         setupFilePickers();
         setupActions();
@@ -92,12 +88,19 @@ public class AddTextbookFragment extends Fragment {
     }
 
     private void setupFilePickers() {
-        binding.btnPickCover.setOnClickListener(v ->
-                FilePickerHelper.pickImage(this, FilePickerHelper.REQUEST_IMAGE));
-
-        binding.btnPickDigital.setOnClickListener(v ->
-                FilePickerHelper.pickDocument(this, FilePickerHelper.REQUEST_DOCUMENT,
-                        new String[]{"application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}));
+        binding.btnPickCover.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            imagePicker.launch(intent);
+        });
+        binding.btnPickDigital.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            String[] mimeTypes = {"application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"};
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            filePicker.launch(intent);
+        });
     }
 
     private void setupActions() {
@@ -111,7 +114,6 @@ public class AddTextbookFragment extends Fragment {
         if (args != null) {
             editBookId = args.getString("edit_book_id");
         }
-
         if (editBookId != null) {
             binding.tvTitle.setText(R.string.edit_title);
             loadBookForEdit(editBookId);
@@ -189,7 +191,7 @@ public class AddTextbookFragment extends Fragment {
                     if (result.isSuccess()) {
                         textbook.setDigitalFileUrl(result.url);
                         textbook.setDigitalFileName(result.fileName);
-                        textbook.setFileType(result.mimeType.contains("pdf") ? "pdf" : "docx");
+                        textbook.setFileType(result.mimeType != null && result.mimeType.contains("pdf") ? "pdf" : "docx");
                         textbook.setDigital(true);
                         saveToDatabase();
                     } else {

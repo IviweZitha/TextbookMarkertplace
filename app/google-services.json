@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "802966198181",
+    "project_id": "bookstore-3ac7a",
+    "storage_bucket": "bookstore-3ac7a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802966198181:android:61ad20b2ead7e45903ba4c",
+        "android_client_info": {
+          "package_name": "com.example.textbookmarketplace"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAlv3JpSSQxzml_1gaOiYUC-jRbrOVfFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

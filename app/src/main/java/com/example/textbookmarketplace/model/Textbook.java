@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "textbooks")
 public class Textbook {
+
     @PrimaryKey
     @NonNull
     private String id;
-
     private String title;
     private String author;
     private String isbn;
@@ -17,21 +17,16 @@ public class Textbook {
     private double price;
     private String category;
     private String condition;
-
-    // File references
+    private String sellerId;
+    private String sellerEmail;
+    private String sellerName;
     private String coverImageUrl;
     private String digitalFileUrl;
     private String digitalFileName;
-    private String fileType; // "pdf", "docx", or null
+    private String fileType;
     private boolean isDigital;
-
-    // Seller info
-    private String sellerEmail;
-    private String sellerId;
-    private String sellerName;
-
-    private long timestamp;
     private boolean isAvailable;
+    private long timestamp;
 
     public Textbook() {
         this.id = java.util.UUID.randomUUID().toString();
@@ -39,7 +34,6 @@ public class Textbook {
         this.isAvailable = true;
     }
 
-    // Getters and Setters
     @NonNull
     public String getId() { return id; }
     public void setId(@NonNull String id) { this.id = id; }
@@ -65,6 +59,15 @@ public class Textbook {
     public String getCondition() { return condition; }
     public void setCondition(String condition) { this.condition = condition; }
 
+    public String getSellerId() { return sellerId; }
+    public void setSellerId(String sellerId) { this.sellerId = sellerId; }
+
+    public String getSellerEmail() { return sellerEmail; }
+    public void setSellerEmail(String sellerEmail) { this.sellerEmail = sellerEmail; }
+
+    public String getSellerName() { return sellerName; }
+    public void setSellerName(String sellerName) { this.sellerName = sellerName; }
+
     public String getCoverImageUrl() { return coverImageUrl; }
     public void setCoverImageUrl(String coverImageUrl) { this.coverImageUrl = coverImageUrl; }
 
@@ -80,18 +83,9 @@ public class Textbook {
     public boolean isDigital() { return isDigital; }
     public void setDigital(boolean digital) { isDigital = digital; }
 
-    public String getSellerEmail() { return sellerEmail; }
-    public void setSellerEmail(String sellerEmail) { this.sellerEmail = sellerEmail; }
-
-    public String getSellerId() { return sellerId; }
-    public void setSellerId(String sellerId) { this.sellerId = sellerId; }
-
-    public String getSellerName() { return sellerName; }
-    public void setSellerName(String sellerName) { this.sellerName = sellerName; }
+    public boolean isAvailable() { return isAvailable; }
+    public void setAvailable(boolean available) { isAvailable = available; }
 
     public long getTimestamp() { return timestamp; }
     public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
-
-    public boolean isAvailable() { return isAvailable; }
-    public void setAvailable(boolean available) { isAvailable = available; }
 }

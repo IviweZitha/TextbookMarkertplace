@@ -1,21 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App Name -->
     <string name="app_name">Textbook Marketplace</string>
 
     <!-- Navigation -->
     <string name="nav_home">Home</string>
-    <string name="nav_browse">Browse Textbooks</string>
-    <string name="nav_add">Add Textbook</string>
+    <string name="nav_browse">Browse</string>
+    <string name="nav_add">Add</string>
     <string name="nav_my_listings">My Listings</string>
     <string name="nav_settings">Settings</string>
 
-    <!-- Home -->
+    <!-- Home Screen -->
     <string name="home_search_hint">Search textbooks, authors, ISBN…</string>
+    <string name="search_hint">Search…</string>
+    <string name="search_results_count">%d results</string>
+    <string name="search_no_results">No results found</string>
     <string name="home_browse_btn">Browse Textbooks</string>
     <string name="home_add_btn">+ Add Textbook</string>
+    <string name="home_featured">Featured Textbooks</string>
 
-    <!-- Browse -->
+    <!-- Browse Screen -->
     <string name="browse_filter">Filter</string>
     <string name="browse_sort">Sort</string>
+    <string name="browse_all">All</string>
+    <string name="browse_science">Science</string>
+    <string name="browse_math">Math</string>
+    <string name="browse_engineering">Engineering</string>
     <string name="browse_empty">No textbooks found</string>
     <string name="browse_search_web">Search Google Books</string>
 
@@ -30,12 +40,37 @@
     <string name="field_category">Category *</string>
     <string name="field_condition">Condition *</string>
     <string name="btn_pick_cover">Pick Cover Image</string>
+    <string name="cover_preview_desc">Book cover image preview</string>
+    <string name="book_cover_desc">Book cover image</string>
+    <string name="digital_badge_desc">Digital book available</string>
+    <string name="view_details_desc">View details</string>
     <string name="btn_pick_digital">Attach Digital Copy (PDF/DOCX)</string>
     <string name="digital_file_label">Attached File:</string>
     <string name="btn_save">Save Textbook</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_back">Back</string>
     <string name="error_required">This field is required</string>
     <string name="error_invalid_price">Enter a valid price</string>
+
+    <!-- Field Hints for Add/Edit -->
+    <string name="book_title">Book Title</string>
+    <string name="author">Author</string>
+    <string name="isbn">ISBN</string>
+    <string name="edition">Edition</string>
+    <string name="condition">Condition</string>
+    <string name="faculty">Faculty/Category</string>
+    <string name="course_code">Course Code</string>
+    <string name="copies">Number of Copies</string>
+    <string name="selling_price">Selling Price</string>
+    <string name="seller_name">Seller Name</string>
+    <string name="seller_email">Seller Email</string>
+    <string name="seller_phone">Seller Phone</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_number">Account Number</string>
+    <string name="account_holder">Account Holder</string>
+    <string name="branch_code">Branch Code</string>
+    <string name="clear">Clear</string>
+    <string name="submit">Submit</string>
 
     <!-- My Listings -->
     <string name="my_listings_empty">You haven\'t listed any books yet</string>
@@ -59,6 +94,8 @@
     <string name="theme_system">System Default</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="settings_save">Save Settings</string>
+    <string name="settings_logout">Logout</string>
     <string name="app_version">Version %s</string>
     <string name="clear_cache">Clear Cache</string>
     <string name="privacy_policy">Privacy Policy</string>

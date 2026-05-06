@@ -5,45 +5,70 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import com.example.textbookmarketplace.model.Textbook;
 import com.example.textbookmarketplace.repository.BookRepository;
 import com.example.textbookmarketplace.repository.FileStorageRepository;
+import com.example.textbookmarketplace.repository.UploadResult;
 import java.util.List;
 
 public class BookViewModel extends AndroidViewModel {
-    private final BookRepository repository;
-    private final FileStorageRepository fileStorage;
+
+    private final BookRepository bookRepository;
+    private final FileStorageRepository fileStorageRepository;
     private final LiveData<List<Textbook>> allAvailableBooks;
 
     public BookViewModel(@NonNull Application application) {
         super(application);
-        repository = new BookRepository(application);
-        fileStorage = new FileStorageRepository();
-        allAvailableBooks = repository.getAllAvailableBooks();
+        bookRepository = new BookRepository(application);
+        fileStorageRepository = new FileStorageRepository();
+        allAvailableBooks = bookRepository.getAllAvailableBooks();
     }
 
-    public LiveData<List<Textbook>> getAllAvailableBooks() { return allAvailableBooks; }
-    public LiveData<List<Textbook>> getUserListings(String userId) {
-        return repository.getUserListings(userId);
+    public LiveData<List<Textbook>> getAllAvailableBooks() {
+        return allAvailableBooks;
     }
+
+    public LiveData<List<Textbook>> getAllBooks() {
+        return bookRepository.getAllBooks();
+    }
+
     public LiveData<Textbook> getBookById(String bookId) {
-        return repository.getBookById(bookId);
+        return bookRepository.getBookById(bookId);
     }
+
+    public LiveData<List<Textbook>> getUserListings(String userId) {
+        return bookRepository.getUserListings(userId);
+    }
+
     public LiveData<List<Textbook>> searchBooks(String query) {
-        return repository.searchBooks(query);
+        return bookRepository.searchBooks(query);
     }
 
-    public void insert(Textbook textbook) { repository.insert(textbook); }
-    public void update(Textbook textbook) { repository.update(textbook); }
-    public void delete(Textbook textbook) { repository.delete(textbook); }
-    public void deleteById(String bookId) { repository.deleteById(bookId); }
-
-    public MutableLiveData<FileStorageRepository.UploadResult> uploadCoverImage(Uri uri, String userId) {
-        return fileStorage.uploadImage(uri, userId);
+    public LiveData<List<Textbook>> getBooksByCategory(String category) {
+        return bookRepository.getBooksByCategory(category);
     }
 
-    public MutableLiveData<FileStorageRepository.UploadResult> uploadDigitalFile(Uri uri, String userId, String mimeType) {
-        return fileStorage.uploadDigitalFile(uri, userId, mimeType);
+    public LiveData<UploadResult> uploadCoverImage(Uri imageUri, String userId) {
+        return fileStorageRepository.uploadImage(imageUri, userId);
+    }
+
+    public LiveData<UploadResult> uploadDigitalFile(Uri fileUri, String userId, String mimeType) {
+        return fileStorageRepository.uploadFile(fileUri, userId, mimeType);
+    }
+
+    public void insert(Textbook book) {
+        bookRepository.insert(book);
+    }
+
+    public void update(Textbook book) {
+        bookRepository.update(book);
+    }
+
+    public void delete(Textbook book) {
+        bookRepository.delete(book);
+    }
+
+    public void deleteById(String bookId) {
+        bookRepository.deleteById(bookId);
     }
 }

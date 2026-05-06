@@ -17,19 +17,21 @@
         android:orientation="vertical"
         android:padding="12dp">
 
+        <!-- Cover Image Container -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:background="@color/surface_variant"
             android:layout_marginBottom="12dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/iv_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"/>
+                android:contentDescription="@string/book_cover_desc"/>
 
+            <!-- Digital Badge -->
             <ImageView
                 android:id="@+id/iv_digital_badge"
                 android:layout_width="32dp"
@@ -39,9 +41,11 @@
                 android:src="@android:drawable/ic_dialog_info"
                 android:backgroundTint="@color/magenta_primary"
                 android:padding="6dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:contentDescription="@string/digital_badge_desc"/>
         </FrameLayout>
 
+        <!-- Book Title -->
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -52,6 +56,7 @@
             android:ellipsize="end"
             android:textSize="14sp"/>
 
+        <!-- Author -->
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
@@ -62,6 +67,7 @@
             android:maxLines="1"
             android:ellipsize="end"/>
 
+        <!-- Category -->
         <TextView
             android:id="@+id/tv_category"
             android:layout_width="wrap_content"
@@ -73,6 +79,7 @@
             android:paddingVertical="2dp"
             android:layout_marginTop="6dp"/>
 
+        <!-- Price Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,8 +99,9 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@android:drawable/ic_menu_forward"
-                app:tint="@color/text_secondary"/>
+                android:src="@android:drawable/ic_media_play"
+                app:tint="@color/text_secondary"
+                android:contentDescription="@string/view_details_desc"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -39,299 +39,153 @@
 
 
         <!-- Book Title -->
-
         <TextView
-
             android:id="@+id/tvBookTitle"
-
             android:layout_width="0dp"
-
             android:layout_height="wrap_content"
-
             android:maxLines="2"
-
-            android:textColor="@color/black"
-
+            android:textColor="@color/text_primary"
             android:textSize="18sp"
-
             android:textStyle="bold"
-
             app:layout_constraintEnd_toStartOf="@id/tvPrice"
-
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toTopOf="parent"
-
             tools:text="Introduction to Algorithms" />
 
-
-
         <!-- Selling Price -->
-
         <TextView
-
             android:id="@+id/tvPrice"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:background="@color/green_700"
-
+            android:background="@color/magenta_primary"
             android:paddingStart="12dp"
-
             android:paddingTop="4dp"
-
             android:paddingEnd="12dp"
-
             android:paddingBottom="4dp"
-
             android:textColor="@color/white"
-
             android:textSize="16sp"
-
             android:textStyle="bold"
-
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintTop_toTopOf="parent"
-
             tools:text="R350" />
 
-
-
         <!-- Author Name -->
-
         <TextView
-
             android:id="@+id/tvAuthor"
-
             android:layout_width="0dp"
-
             android:layout_height="wrap_content"
-
             android:layout_marginTop="4dp"
-
             android:maxLines="1"
-
-            android:textColor="@color/grey_600"
-
+            android:textColor="@color/text_secondary"
             android:textSize="14sp"
-
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toBottomOf="@id/tvBookTitle"
-
             tools:text="by Thomas H. Cormen" />
 
-
-
         <!-- Course Code (if available) -->
-
         <TextView
-
             android:id="@+id/tvCourseCode"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
             android:layout_marginTop="8dp"
-
-            android:background="@color/grey_200"
-
+            android:background="@color/surface_variant"
             android:paddingStart="8dp"
-
             android:paddingTop="2dp"
-
             android:paddingEnd="8dp"
-
             android:paddingBottom="2dp"
-
-            android:textColor="@color/grey_700"
-
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
-
             android:visibility="gone"
-
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toBottomOf="@id/tvAuthor"
-
             tools:text="CSC313"
-
             tools:visibility="visible" />
 
-
-
         <!-- Condition Badge -->
-
         <TextView
-
             android:id="@+id/tvCondition"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
             android:layout_marginStart="8dp"
-
             android:layout_marginTop="8dp"
-
             android:background="@drawable/bg_condition_badge"
-
             android:drawableStart="@drawable/ic_condition_good"
-
             android:drawablePadding="4dp"
-
             android:paddingStart="8dp"
-
             android:paddingTop="2dp"
-
             android:paddingEnd="8dp"
-
             android:paddingBottom="2dp"
-
-            android:textColor="@color/colorPrimary"
-
+            android:textColor="@color/magenta_primary"
             android:textSize="12sp"
-
             app:layout_constraintStart_toEndOf="@id/tvCourseCode"
-
             app:layout_constraintTop_toBottomOf="@id/tvAuthor"
-
             tools:text="Good" />
 
-
-
         <!-- Copies Available Badge -->
-
         <TextView
-
             android:id="@+id/tvCopies"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
             android:layout_marginStart="8dp"
-
             android:layout_marginTop="8dp"
-
             android:background="@drawable/bg_copies_badge"
-
             android:paddingStart="8dp"
-
             android:paddingTop="2dp"
-
             android:paddingEnd="8dp"
-
             android:paddingBottom="2dp"
-
-            android:textColor="@color/green_700"
-
+            android:textColor="@color/magenta_primary"
             android:textSize="12sp"
-
             app:layout_constraintStart_toEndOf="@id/tvCondition"
-
             app:layout_constraintTop_toBottomOf="@id/tvAuthor"
-
             tools:text="3 copies" />
 
-
-
         <!-- Divider Line -->
-
         <View
-
             android:id="@+id/divider"
-
             android:layout_width="match_parent"
-
             android:layout_height="1dp"
-
             android:layout_marginTop="12dp"
-
-            android:background="@color/grey_200"
-
+            android:background="@color/surface_variant"
             app:layout_constraintTop_toBottomOf="@id/tvCondition" />
 
-
-
         <!-- Seller Icon -->
-
         <ImageView
-
             android:id="@+id/ivSellerIcon"
-
             android:layout_width="16dp"
-
             android:layout_height="16dp"
-
             android:layout_marginTop="12dp"
-
             android:src="@drawable/ic_seller"
-
+            android:contentDescription="@null"
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
-
-
         <!-- Seller Name -->
-
         <TextView
-
             android:id="@+id/tvSellerName"
-
             android:layout_width="0dp"
-
             android:layout_height="wrap_content"
-
             android:layout_marginStart="6dp"
-
             android:layout_marginTop="10dp"
-
             android:ellipsize="end"
-
             android:maxLines="1"
-
-            android:textColor="@color/grey_600"
-
+            android:textColor="@color/text_secondary"
             android:textSize="13sp"
-
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toEndOf="@id/ivSellerIcon"
-
             app:layout_constraintTop_toBottomOf="@id/divider"
-
             tools:text="Listed by John Doe" />
 
-
-
         <!-- Listing Date -->
-
         <TextView
-
             android:id="@+id/tvListingDate"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
             android:layout_marginTop="4dp"
-
-            android:textColor="@color/grey_500"
-
+            android:textColor="@color/text_secondary"
             android:textSize="11sp"
-
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toBottomOf="@id/tvSellerName"
-
             tools:text="Listed: 2024-05-01" />
 
 

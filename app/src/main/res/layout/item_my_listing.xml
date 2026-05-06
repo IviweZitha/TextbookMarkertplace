@@ -61,23 +61,27 @@
             android:orientation="vertical"
             android:gravity="end">
 
+            <!-- Edit Button -->
             <ImageButton
                 android:id="@+id/btn_edit"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@android:drawable/ic_menu_edit"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/action_edit"
-                app:tint="@color/magenta_primary"/>
+                app:tint="@color/magenta_primary"
+                android:padding="8dp"/>
 
+            <!-- Delete Button -->
             <ImageButton
                 android:id="@+id/btn_delete"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@android:drawable/ic_menu_delete"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/action_delete"
-                app:tint="@color/error"/>
+                app:tint="@color/error"
+                android:padding="8dp"/>
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
