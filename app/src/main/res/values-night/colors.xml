@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Magenta (kept vibrant) -->
+    <!-- Primary Magenta Theme (same in dark mode) -->
     <color name="magenta_primary">#FF00FF</color>
     <color name="magenta_primary_variant">#CC00CC</color>
     <color name="magenta_on_primary">#FFFFFF</color>
 
-    <!-- Dark Theme -->
-    <color name="background_dark">#121212</color>
-    <color name="surface_dark">#1E1E1E</color>
-    <color name="surface_variant_dark">#2D2D2D</color>
-    <color name="text_primary_dark">#FFFFFF</color>
-    <color name="text_secondary_dark">#B3B3B3</color>
-    <color name="error_dark">#CF6679</color>
-
-    <!-- Status Bar -->
-    <color name="status_bar_dark">#000000</color>
-
-    <!-- Dark Mode Overrides -->
+    <!-- Dark Theme Colors -->
     <color name="background">@color/background_dark</color>
     <color name="surface">@color/surface_dark</color>
     <color name="surface_variant">@color/surface_variant_dark</color>

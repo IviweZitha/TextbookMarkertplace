@@ -13,18 +13,16 @@ import java.util.Locale;
 
 public class MyListingAdapter extends ListAdapter<Textbook, MyListingAdapter.ViewHolder> {
 
-    private final OnEditClickListener editListener;
-    private final OnDeleteClickListener deleteListener;
 
-    public interface OnEditClickListener {
+    public interface OnActionListener {
         void onEdit(Textbook book);
-    }
-
-    public interface OnDeleteClickListener {
         void onDelete(Textbook book);
+        void onBookClick(Textbook book);
     }
 
-    public MyListingAdapter(OnEditClickListener editListener, OnDeleteClickListener deleteListener) {
+    private final OnActionListener listener;
+
+    public MyListingAdapter(OnActionListener listener) {
         super(new DiffUtil.ItemCallback<Textbook>() {
             @Override
             public boolean areItemsTheSame(@NonNull Textbook oldItem, @NonNull Textbook newItem) {
@@ -33,11 +31,12 @@ public class MyListingAdapter extends ListAdapter<Textbook, MyListingAdapter.Vie
 
             @Override
             public boolean areContentsTheSame(@NonNull Textbook oldItem, @NonNull Textbook newItem) {
-                return oldItem.getTitle().equals(newItem.getTitle());
+                return oldItem.getTitle().equals(newItem.getTitle()) &&
+                       oldItem.isAvailable() == newItem.isAvailable() &&
+                       oldItem.getPrice() == newItem.getPrice();
             }
         });
-        this.editListener = editListener;
-        this.deleteListener = deleteListener;
+        this.listener = listener;
     }
 
     @NonNull
@@ -78,8 +77,9 @@ public class MyListingAdapter extends ListAdapter<Textbook, MyListingAdapter.Vie
                     ? android.graphics.Color.GREEN
                     : android.graphics.Color.RED);
 
-            binding.btnEdit.setOnClickListener(v -> editListener.onEdit(book));
-            binding.btnDelete.setOnClickListener(v -> deleteListener.onDelete(book));
+            binding.getRoot().setOnClickListener(v -> listener.onBookClick(book));
+            binding.btnEdit.setOnClickListener(v -> listener.onEdit(book));
+            binding.btnDelete.setOnClickListener(v -> listener.onDelete(book));
         }
     }
 }

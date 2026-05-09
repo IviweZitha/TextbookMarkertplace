@@ -85,8 +85,10 @@
     <string name="detail_price">$%.2f</string>
     <string name="detail_condition">Condition: %s</string>
     <string name="btn_contact_seller">Contact Seller</string>
+    <string name="btn_read_file">Read Digital File</string>
     <string name="btn_view_digital">View Digital Copy</string>
-    <string name="email_subject">Interested in buying one of the available books</string>
+    <string name="email_subject">Interested in buying one of your books</string>
+    <string name="digital_file_info">Digital File: %s</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>

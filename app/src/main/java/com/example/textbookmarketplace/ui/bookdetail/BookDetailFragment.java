@@ -11,6 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.textbookmarketplace.databinding.FragmentBookDetailBinding;
 import com.example.textbookmarketplace.model.Textbook;
 import com.example.textbookmarketplace.viewmodel.BookViewModel;
+import com.bumptech.glide.Glide;
+import android.content.Intent;
+import android.net.Uri;
+import android.widget.Toast;
 
 public class BookDetailFragment extends Fragment {
 
@@ -57,13 +61,63 @@ public class BookDetailFragment extends Fragment {
         binding.tvCategory.setText(book.getCategory());
         binding.tvCondition.setText(book.getCondition());
         binding.tvSellerName.setText(book.getSellerName());
+
+        if (book.getCoverImageUrl() != null && !book.getCoverImageUrl().isEmpty()) {
+            Glide.with(this)
+                    .load(book.getCoverImageUrl())
+                    .placeholder(com.example.textbookmarketplace.R.color.surface_variant)
+                    .into(binding.ivCover);
+        }
+
+        if (book.isDigital() && book.getDigitalFileName() != null) {
+            binding.tvDigitalFile.setVisibility(View.VISIBLE);
+            binding.tvDigitalFile.setText(getString(com.example.textbookmarketplace.R.string.digital_file_info, book.getDigitalFileName()));
+            binding.btnReadFile.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvDigitalFile.setVisibility(View.GONE);
+            binding.btnReadFile.setVisibility(View.GONE);
+        }
     }
 
     private void setupClickListeners() {
         binding.btnBack.setOnClickListener(v -> requireActivity().getOnBackPressedDispatcher().onBackPressed());
+        
         binding.btnContactSeller.setOnClickListener(v -> {
-            // TODO: Open email intent
+            viewModel.getBookById(bookId).observe(getViewLifecycleOwner(), book -> {
+                if (book != null && book.getSellerEmail() != null) {
+                    com.example.textbookmarketplace.util.GmailIntentHelper.composeSellerEmail(
+                            requireContext(), book.getSellerEmail(), book.getTitle());
+                } else {
+                    Toast.makeText(getContext(), "Seller email not available", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+
+        binding.btnReadFile.setOnClickListener(v -> {
+            viewModel.getBookById(bookId).observe(getViewLifecycleOwner(), book -> {
+                if (book != null && book.getDigitalFileUrl() != null) {
+                    openFile(book.getDigitalFileUrl(), book.getFileType());
+                }
+            });
+        });
+    }
+
+    private void openFile(String fileUrl, String fileType) {
+        Uri uri = Uri.parse(fileUrl);
+        String mimeType = "application/pdf";
+        if ("docx".equalsIgnoreCase(fileType)) {
+            mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        }
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, mimeType);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "No app found to open this file", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

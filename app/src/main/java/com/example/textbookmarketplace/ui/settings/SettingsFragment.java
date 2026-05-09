@@ -1,5 +1,6 @@
 package com.example.textbookmarketplace.ui.settings;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,17 +9,17 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import com.example.textbookmarketplace.BuildConfig;
 import com.example.textbookmarketplace.R;
 import com.example.textbookmarketplace.databinding.FragmentSettingsBinding;
-import com.example.textbookmarketplace.util.ThemeHelper;
-import com.example.textbookmarketplace.viewmodel.ThemeViewModel;
 
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
-    private ThemeViewModel themeViewModel;
+    private static final String PREFS_NAME = "theme_prefs";
+    private static final String KEY_THEME = "color_mode";
 
     @Nullable
     @Override
@@ -31,27 +32,88 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        themeViewModel = new ViewModelProvider(requireActivity()).get(ThemeViewModel.class);
+        setupVersion();
+        loadCurrentTheme();
+        setupThemeToggle();
+        setupActions();
+    }
 
-        binding.themeRadioGroup.setOnCheckedChangeListener((@NonNull RadioGroup group, int checkedId) -> {
-            if (checkedId == R.id.radioLight) {
-                ThemeHelper.applyTheme(ThemeHelper.LIGHT);
-                themeViewModel.setThemeMode(ThemeHelper.LIGHT);
-            } else if (checkedId == R.id.radioDark) {
-                ThemeHelper.applyTheme(ThemeHelper.DARK);
-                themeViewModel.setThemeMode(ThemeHelper.DARK);
-            } else if (checkedId == R.id.radioSystem) {
-                ThemeHelper.applyTheme(ThemeHelper.SYSTEM);
-                themeViewModel.setThemeMode(ThemeHelper.SYSTEM);
+    private void setupVersion() {
+        String version = String.format(getString(R.string.app_version), BuildConfig.VERSION_NAME);
+        binding.tvVersion.setText(version);
+    }
+
+    private void loadCurrentTheme() {
+        SharedPreferences prefs = requireActivity().getSharedPreferences(PREFS_NAME, requireActivity().MODE_PRIVATE);
+        String currentTheme = prefs.getString(KEY_THEME, "system");
+
+        switch (currentTheme) {
+            case "light":
+                binding.themeLight.setChecked(true);
+                break;
+            case "dark":
+                binding.themeDark.setChecked(true);
+                break;
+            default:
+                binding.themeSystem.setChecked(true);
+                break;
+        }
+    }
+
+    private void setupThemeToggle() {
+        View.OnClickListener themeClickListener = v -> {
+            String selectedTheme;
+            int id = v.getId();
+            
+            if (id == R.id.themeLight) {
+                selectedTheme = "light";
+            } else if (id == R.id.themeDark) {
+                selectedTheme = "dark";
+            } else {
+                selectedTheme = "system";
             }
+
+            SharedPreferences prefs = requireActivity().getSharedPreferences(PREFS_NAME, requireActivity().MODE_PRIVATE);
+            String currentTheme = prefs.getString(KEY_THEME, "system");
+
+            if (!selectedTheme.equals(currentTheme)) {
+                prefs.edit().putString(KEY_THEME, selectedTheme).apply();
+                applyTheme(selectedTheme);
+                Toast.makeText(getContext(), "Theme saved: " + selectedTheme, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        binding.themeLight.setOnClickListener(themeClickListener);
+        binding.themeDark.setOnClickListener(themeClickListener);
+        binding.themeSystem.setOnClickListener(themeClickListener);
+    }
+
+    private void applyTheme(String mode) {
+        int nightMode;
+        switch (mode) {
+            case "light":
+                nightMode = AppCompatDelegate.MODE_NIGHT_NO;
+                break;
+            case "dark":
+                nightMode = AppCompatDelegate.MODE_NIGHT_YES;
+                break;
+            default:
+                nightMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                break;
+        }
+        AppCompatDelegate.setDefaultNightMode(nightMode);
+    }
+
+    private void setupActions() {
+        binding.btnClearCache.setOnClickListener(v -> {
+            // Clear cache logic
+            requireActivity().getCacheDir().delete();
+            Toast.makeText(getContext(), "Cache cleared", Toast.LENGTH_SHORT).show();
         });
 
-        binding.btnSave.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Settings saved", Toast.LENGTH_SHORT).show();
-        });
-
-        binding.btnLogout.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show();
+        binding.btnPrivacy.setOnClickListener(v -> {
+            // TODO: Open privacy policy URL
+            Toast.makeText(getContext(), "Privacy Policy coming soon", Toast.LENGTH_SHORT).show();
         });
     }
 

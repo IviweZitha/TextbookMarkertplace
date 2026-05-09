@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -16,7 +18,9 @@ import com.example.textbookmarketplace.R;
 import com.example.textbookmarketplace.adapter.TextbookAdapter;
 import com.example.textbookmarketplace.databinding.FragmentBrowseBinding;
 import com.example.textbookmarketplace.model.Textbook;
+import com.example.textbookmarketplace.util.GmailIntentHelper;
 import com.example.textbookmarketplace.viewmodel.BookViewModel;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BrowseFragment extends Fragment {
@@ -25,6 +29,7 @@ public class BrowseFragment extends Fragment {
     private BookViewModel viewModel;
     private TextbookAdapter adapter;
     private String currentCategory = null;
+    private String currentSearchQuery = null;
 
     @Nullable
     @Override
@@ -36,10 +41,21 @@ public class BrowseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         viewModel = new ViewModelProvider(this).get(BookViewModel.class);
+
+        // Get search query from arguments (if coming from HomeFragment)
+        if (getArguments() != null) {
+            currentSearchQuery = getArguments().getString("search_query", null);
+            if (currentSearchQuery != null && binding.searchInput != null) {
+                binding.searchInput.setText(currentSearchQuery);
+            }
+        }
+
         setupRecyclerView();
         setupSearch();
         setupFilters();
+        setupFAB();
         observeData();
     }
 
@@ -47,98 +63,124 @@ public class BrowseFragment extends Fragment {
         adapter = new TextbookAdapter(book -> {
             Bundle args = new Bundle();
             args.putString("book_id", book.getId());
-            NavHostFragment.findNavController(BrowseFragment.this)
-                    .navigate(R.id.action_browse_to_detail, args);
+            try {
+                Navigation.findNavController(binding.getRoot())
+                        .navigate(R.id.action_browse_to_detail, args);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
+
         if (getContext() != null) {
             binding.recyclerBrowse.setLayoutManager(new GridLayoutManager(getContext(), 2));
         }
         binding.recyclerBrowse.setAdapter(adapter);
     }
 
-    private void observeData() {
-        viewModel.getAllAvailableBooks().observe(getViewLifecycleOwner(), books -> {
-            if (books != null && !books.isEmpty()) {
-                hideEmptyState();
-                adapter.submitList(books);
-            } else {
-                showEmptyState();
-            }
-        });
-    }
-
     private void setupSearch() {
-        binding.searchInput.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (query != null && !query.trim().isEmpty()) {
-                    viewModel.searchBooks(query.trim()).observe(getViewLifecycleOwner(), results -> {
-                        handleSearchResults(results);
-                    });
-                }
-                return true;
+        binding.searchInput.setOnEditorActionListener((v, actionId, event) -> {
+            String query = binding.searchInput.getText().toString().trim();
+            if (!query.isEmpty()) {
+                currentSearchQuery = query;
+                performSearch(query);
             }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText == null || newText.trim().isEmpty()) {
-                    observeData();
-                }
-                return true;
-            }
+            return true;
         });
     }
 
-    private void handleSearchResults(List<Textbook> results) {
-        if (results == null || results.isEmpty()) {
-            showEmptyState();
+    private void performSearch(String query) {
+        if (query.isEmpty()) {
+            // If query is empty, show all books
+            viewModel.getAllAvailableBooks().observe(getViewLifecycleOwner(), books -> {
+                updateList(books);
+            });
         } else {
-            hideEmptyState();
-            adapter.submitList(results);
-        }
-    }
-
-    private void showEmptyState() {
-        binding.recyclerBrowse.setVisibility(View.GONE);
-        if (binding.emptyState != null) {
-            binding.emptyState.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hideEmptyState() {
-        binding.recyclerBrowse.setVisibility(View.VISIBLE);
-        if (binding.emptyState != null) {
-            binding.emptyState.setVisibility(View.GONE);
+            // Search by title, author, or category
+            viewModel.searchBooks(query).observe(getViewLifecycleOwner(), books -> {
+                updateList(books);
+            });
         }
     }
 
     private void setupFilters() {
         ChipGroup chipGroup = binding.chipGroup;
-        if (chipGroup == null) return;
+
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             final Chip chip = (Chip) chipGroup.getChildAt(i);
             chip.setOnClickListener(v -> {
                 if (chip.isChecked()) {
-                    currentCategory = String.valueOf(chip.getText());
-                    if ("All".equalsIgnoreCase(currentCategory)) {
-                        observeData();
+                    String selectedChip = chip.getText().toString();
+
+                    if ("All".equals(selectedChip)) {
+                        currentCategory = null;
+                        // Show all books
+                        viewModel.getAllAvailableBooks().observe(getViewLifecycleOwner(), books -> {
+                            updateList(books);
+                        });
                     } else {
-                        filterByCategory(currentCategory);
+                        currentCategory = selectedChip;
+                        // Filter by category
+                        viewModel.searchBooks(currentCategory).observe(getViewLifecycleOwner(), books -> {
+                            updateList(books);
+                        });
                     }
                 }
             });
         }
     }
 
-    private void filterByCategory(String category) {
-        viewModel.getBooksByCategory(category).observe(getViewLifecycleOwner(), books -> {
-            if (books != null && !books.isEmpty()) {
-                hideEmptyState();
-                adapter.submitList(books);
-            } else {
-                showEmptyState();
+    private void setupFAB() {
+        binding.fabAdd.setOnClickListener(v -> {
+            try {
+                Navigation.findNavController(v)
+                        .navigate(R.id.action_browse_to_add);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
+    }
+
+    private void observeData() {
+        // Initial load - show all books
+        viewModel.getAllAvailableBooks().observe(getViewLifecycleOwner(), books -> {
+            // If there's a search query from arguments, perform search instead
+            if (currentSearchQuery != null && !currentSearchQuery.isEmpty()) {
+                performSearch(currentSearchQuery);
+            } else {
+                updateList(books);
+            }
+        });
+    }
+
+    private void updateList(List<Textbook> books) {
+        if (books == null || books.isEmpty()) {
+            showEmptyState();
+        } else {
+            hideEmptyState();
+            adapter.submitList(books);
+        }
+    }
+
+    private void showEmptyState() {
+        binding.recyclerBrowse.setVisibility(View.GONE);
+        binding.emptyState.setVisibility(View.VISIBLE);
+        binding.progressLoading.setVisibility(View.GONE);
+
+        if (currentSearchQuery != null && !currentSearchQuery.isEmpty()) {
+            binding.tvEmptyMsg.setText("No results for \"" + currentSearchQuery + "\"");
+            binding.btnWebSearch.setVisibility(View.VISIBLE);
+            binding.btnWebSearch.setOnClickListener(v -> {
+                GmailIntentHelper.openGoogleBooksSearch(requireContext(), currentSearchQuery);
+            });
+        } else {
+            binding.tvEmptyMsg.setText("No textbooks available");
+            binding.btnWebSearch.setVisibility(View.GONE);
+        }
+    }
+
+    private void hideEmptyState() {
+        binding.recyclerBrowse.setVisibility(View.VISIBLE);
+        binding.emptyState.setVisibility(View.GONE);
     }
 
     @Override

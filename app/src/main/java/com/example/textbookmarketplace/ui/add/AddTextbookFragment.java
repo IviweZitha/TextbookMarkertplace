@@ -21,6 +21,7 @@ import com.example.textbookmarketplace.databinding.FragmentAddTextbookBinding;
 import com.example.textbookmarketplace.model.Textbook;
 import com.example.textbookmarketplace.util.FilePickerHelper;
 import com.example.textbookmarketplace.viewmodel.BookViewModel;
+
 import java.util.Objects;
 
 public class AddTextbookFragment extends Fragment {
@@ -28,7 +29,7 @@ public class AddTextbookFragment extends Fragment {
     private BookViewModel viewModel;
     private Textbook textbook;
     private String editBookId;
-    private String currentUserId;
+    private String currentUserId = "local_user"; // Use a constant local ID
 
     private Uri selectedImageUri;
     private Uri selectedFileUri;
@@ -67,10 +68,11 @@ public class AddTextbookFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        currentUserId = "demo_user_123";
+        
         viewModel = new ViewModelProvider(this).get(BookViewModel.class);
         textbook = new Textbook();
         textbook.setSellerId(currentUserId);
+        
         setupFormFields();
         setupFilePickers();
         setupActions();
@@ -164,12 +166,23 @@ public class AddTextbookFragment extends Fragment {
         textbook.setPrice(price);
         textbook.setCategory(Objects.requireNonNull(binding.etCategory.getText()).toString());
         textbook.setCondition(Objects.requireNonNull(binding.etCondition.getText()).toString());
-        textbook.setSellerEmail("user@example.com");
-        textbook.setSellerName("Demo User");
 
-        if (selectedImageUri != null) { uploadCoverImage(); }
-        else if (selectedFileUri != null) { uploadDigitalFile(); }
-        else { saveToDatabase(); }
+        String sName = binding.etSellerName.getText().toString().trim();
+        String sEmail = binding.etSellerEmail.getText().toString().trim();
+        textbook.setSellerName(sName.isEmpty() ? "Local User" : sName);
+        textbook.setSellerEmail(sEmail.isEmpty() ? "user@example.com" : sEmail);
+
+        if (selectedImageUri != null) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.btnSave.setEnabled(false);
+            uploadCoverImage();
+        } else if (selectedFileUri != null) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.btnSave.setEnabled(false);
+            uploadDigitalFile();
+        } else {
+            saveToDatabase();
+        }
     }
 
     private void uploadCoverImage() {
@@ -180,7 +193,9 @@ public class AddTextbookFragment extends Fragment {
                         if (selectedFileUri != null) { uploadDigitalFile(); }
                         else { saveToDatabase(); }
                     } else {
-                        Toast.makeText(getContext(), "Image upload failed: " + result.error, Toast.LENGTH_SHORT).show();
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.btnSave.setEnabled(true);
+                        Toast.makeText(getContext(), "Image save failed: " + result.error, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -195,7 +210,9 @@ public class AddTextbookFragment extends Fragment {
                         textbook.setDigital(true);
                         saveToDatabase();
                     } else {
-                        Toast.makeText(getContext(), "File upload failed: " + result.error, Toast.LENGTH_SHORT).show();
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.btnSave.setEnabled(true);
+                        Toast.makeText(getContext(), "File save failed: " + result.error, Toast.LENGTH_LONG).show();
                     }
                 });
     }

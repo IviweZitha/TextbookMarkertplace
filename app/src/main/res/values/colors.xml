@@ -19,11 +19,29 @@
     <color name="magenta_on_primary">#FFFFFF</color>
 
     <!-- Light Theme Colors -->
-    <color name="background">#FFFFFF</color>
-    <color name="surface">#FFFFFF</color>
-    <color name="surface_variant">#EEEEEE</color>
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#757575</color>
-    <color name="error">#B00020</color>
-    <color name="status_bar">#E0E0E0</color>
+    <color name="background_light">#FFFFFF</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_variant_light">#EEEEEE</color>
+    <color name="text_primary_light">#212121</color>
+    <color name="text_secondary_light">#757575</color>
+    <color name="error_light">#B00020</color>
+    <color name="status_bar_light">#E0E0E0</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#121212</color>
+    <color name="surface_variant_dark">#2C2C2C</color>
+    <color name="text_primary_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#B0B0B0</color>
+    <color name="error_dark">#CF6679</color>
+    <color name="status_bar_dark">#000000</color>
+
+    <!-- Semantic Colors (Default/Light) -->
+    <color name="background">@color/background_light</color>
+    <color name="surface">@color/surface_light</color>
+    <color name="surface_variant">@color/surface_variant_light</color>
+    <color name="text_primary">@color/text_primary_light</color>
+    <color name="text_secondary">@color/text_secondary_light</color>
+    <color name="error">@color/error_light</color>
+    <color name="status_bar">@color/status_bar_light</color>
 </resources>

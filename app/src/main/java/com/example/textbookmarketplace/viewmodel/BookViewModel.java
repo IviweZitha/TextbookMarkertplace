@@ -20,7 +20,7 @@ public class BookViewModel extends AndroidViewModel {
     public BookViewModel(@NonNull Application application) {
         super(application);
         bookRepository = new BookRepository(application);
-        fileStorageRepository = new FileStorageRepository();
+        fileStorageRepository = new FileStorageRepository(application);
         allAvailableBooks = bookRepository.getAllAvailableBooks();
     }
 

@@ -1,16 +1,18 @@
 package com.example.textbookmarketplace.ui.mylistings;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.textbookmarketplace.R;
 import com.example.textbookmarketplace.adapter.MyListingAdapter;
 import com.example.textbookmarketplace.databinding.FragmentMyListingsBinding;
@@ -23,7 +25,7 @@ public class MyListingsFragment extends Fragment {
     private FragmentMyListingsBinding binding;
     private BookViewModel viewModel;
     private MyListingAdapter adapter;
-    private String currentUserId = "demo_user_123";
+    private final String currentUserId = "local_user"; // Use constant local ID
 
     @Nullable
     @Override
@@ -35,23 +37,87 @@ public class MyListingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         viewModel = new ViewModelProvider(this).get(BookViewModel.class);
+
         setupRecyclerView();
+        setupSwipeToDelete();
         observeListings();
+        setupEmptyStateButton();
+        setupFAB();
     }
 
     private void setupRecyclerView() {
-        adapter = new MyListingAdapter(
-                book -> {
-                    Bundle args = new Bundle();
-                    args.putString("edit_book_id", book.getId());
-                    NavHostFragment.findNavController(this)
-                            .navigate(R.id.action_mylistings_to_add, args);
-                },
-                book -> showDeleteConfirmation(book)
-        );
+        adapter = new MyListingAdapter(new MyListingAdapter.OnActionListener() {
+            @Override
+            public void onEdit(Textbook book) {
+                Bundle args = new Bundle();
+                args.putString("edit_book_id", book.getId());
+                try {
+                    Navigation.findNavController(binding.getRoot())
+                            .navigate(R.id.action_myListings_to_add, args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDelete(Textbook book) {
+                showDeleteConfirmation(book);
+            }
+
+            @Override
+            public void onBookClick(Textbook book) {
+                Bundle args = new Bundle();
+                args.putString("book_id", book.getId());
+                try {
+                    Navigation.findNavController(binding.getRoot())
+                            .navigate(R.id.action_myListings_to_detail, args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         binding.recyclerMyListings.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerMyListings.setAdapter(adapter);
+    }
+
+    private void setupSwipeToDelete() {
+        ItemTouchHelper.SimpleCallback swipeCallback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView,
+                                          @NonNull RecyclerView.ViewHolder viewHolder,
+                                          @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        List<Textbook> currentList = adapter.getCurrentList();
+                        if (position >= 0 && position < currentList.size()) {
+                            Textbook book = currentList.get(position);
+                            showDeleteConfirmation(book);
+                        }
+                    }
+                };
+
+        new ItemTouchHelper(swipeCallback).attachToRecyclerView(binding.recyclerMyListings);
+    }
+
+    private void showDeleteConfirmation(Textbook book) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.dialog_delete_title)
+                .setMessage(R.string.dialog_delete_msg)
+                .setPositiveButton(R.string.btn_confirm, (dialog, which) -> {
+                    viewModel.deleteById(book.getId());
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                    adapter.notifyItemChanged(adapter.getCurrentList().indexOf(book));
+                })
+                .show();
     }
 
     private void observeListings() {
@@ -65,27 +131,31 @@ public class MyListingsFragment extends Fragment {
         });
     }
 
-    private void showDeleteConfirmation(Textbook book) {
-        new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.dialog_delete_title)
-                .setMessage(R.string.dialog_delete_msg)
-                .setPositiveButton(R.string.btn_confirm, (d, w) -> viewModel.deleteById(book.getId()))
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+    private void setupEmptyStateButton() {
+        binding.btnAddFirst.setOnClickListener(v -> navigateToAdd());
+    }
+
+    private void setupFAB() {
+        binding.fabAdd.setOnClickListener(v -> navigateToAdd());
+    }
+
+    private void navigateToAdd() {
+        try {
+            Navigation.findNavController(binding.getRoot())
+                    .navigate(R.id.action_myListings_to_add);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showEmptyState() {
         binding.recyclerMyListings.setVisibility(View.GONE);
-        if (binding.emptyState != null) {
-            binding.emptyState.setVisibility(View.VISIBLE);
-        }
+        binding.emptyState.setVisibility(View.VISIBLE);
     }
 
     private void hideEmptyState() {
         binding.recyclerMyListings.setVisibility(View.VISIBLE);
-        if (binding.emptyState != null) {
-            binding.emptyState.setVisibility(View.GONE);
-        }
+        binding.emptyState.setVisibility(View.GONE);
     }
 
     @Override
